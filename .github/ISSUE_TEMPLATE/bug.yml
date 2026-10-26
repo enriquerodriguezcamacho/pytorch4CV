@@ -1,0 +1,18 @@
+name: Error en un ejercicio o solución
+description: Un test falla, una solución es incorrecta o la teoría tiene una errata.
+labels: [bug]
+body:
+  - type: input
+    id: tema
+    attributes:
+      label: Tema
+      placeholder: cv/06_adversarial_attacks
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: ¿Qué ocurre?
+      description: Incluye el comando, la salida de pytest y tu versión de torch.
+    validations:
+      required: true

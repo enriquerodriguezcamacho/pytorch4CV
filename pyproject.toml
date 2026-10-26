@@ -1,0 +1,53 @@
+[project]
+name = "pytorch4cv"
+version = "0.1.0"
+description = "Guía práctica de PyTorch para Visión por Computador: teoría, ejercicios estilo examen y soluciones."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Enrique Rodríguez Camacho" }]
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.2",
+    "torchvision>=0.17",
+    "numpy",
+    "matplotlib",
+    "pillow",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.10", "pre-commit"]
+
+[tool.setuptools]
+packages = []
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+addopts = "-q"
+markers = ["slow: tests que tardan más de unos segundos"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501", "UP006", "UP035"]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+# Torch sin CUDA (más ligero). Borra este bloque si quieres usar GPU con uv.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+torchvision = [{ index = "pytorch-cpu" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

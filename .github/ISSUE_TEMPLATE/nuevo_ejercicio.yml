@@ -1,0 +1,17 @@
+name: Proponer un ejercicio
+description: Idea de ejercicio nuevo o tema que falta.
+labels: [enhancement]
+body:
+  - type: input
+    id: tema
+    attributes:
+      label: Tema
+    validations:
+      required: true
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: Propuesta
+      description: Firma de la función/clase, qué debe comprobar el test y referencia teórica.
+    validations:
+      required: true

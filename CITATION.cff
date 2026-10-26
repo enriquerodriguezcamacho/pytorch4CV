@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Si este material te resulta útil, puedes citarlo así."
+title: "pytorch4CV: guía práctica de PyTorch para Visión por Computador"
+authors:
+  - family-names: "Rodríguez Camacho"
+    given-names: "Enrique"
+version: 0.1.0
+date-released: 2026-10-26
+url: "https://github.com/enriquerodriguezcamacho/pytorch4CV"
+license: MIT
