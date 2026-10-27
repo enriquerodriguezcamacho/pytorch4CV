@@ -37,7 +37,13 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
-ignore = ["E501", "UP006", "UP035"]
+ignore = ["E501", "UP006", "UP035", "B905"]
+
+[tool.ruff.lint.per-file-ignores]
+# Al quitar la solución quedan imports/variables sin usar: es lo esperado en un enunciado.
+"exercises/**" = ["F401", "F841", "B008"]
+# `p: Percentage = Percentage(0.5)` es la firma literal del examen extraordinario.
+"solutions/cv/05_explainability/perturbation.py" = ["B008"]
 
 [tool.mypy]
 ignore_missing_imports = true

@@ -109,11 +109,21 @@ Producto matricial: `@` / `torch.matmul` (con *batch*), `torch.bmm`,
 | 6 | `image_to_patches` | ★★★ |
 | 7 | `batched_gram_matrix` (`einsum`) | ★★ |
 | 8 | `topk_accuracy` | ★★ |
+| 9 | `masked_mean` (media solo de los válidos) | ★ |
+| 10 | `patches_to_image` (inversa de los parches) | ★★★ |
+| 11 | `class_histogram` (`scatter_add_`) | ★★ |
+| 12 | `grid_coordinates` (`meshgrid`, orden `(x, y)`) | ★ |
+| 13 | `mask_to_box` (= `torchvision.ops.masks_to_boxes`) | ★★★ |
+| 14 | `batched_index_select` (`gather` con `expand`) | ★★ |
 
 <details><summary>Pistas</summary>
 
 * Ej. 3: ‖a−b‖² = ‖a‖² + ‖b‖² − 2·a·b.
 * Ej. 6: `(B,C,H,W) → (B,C,H/p,p,W/p,p) → (B,H/p,W/p,C,p,p) → (B,N,C·p·p)`.
+* Ej. 10: deshaz los pasos del 6 en orden inverso; el `permute` inverso es `(0, 3, 1, 4, 2, 5)`.
+* Ej. 13: `rows = mask.any(2)`; el primer `True` es `rows.int().argmax(1)` y el último sale de
+  hacer lo mismo con `rows.flip(1)`.
+* Ej. 14: `indices[..., None].expand(-1, -1, D)` y `gather` en la dimensión 1.
 </details>
 
 ## Referencias

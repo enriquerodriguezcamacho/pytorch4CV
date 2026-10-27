@@ -110,7 +110,7 @@ class CustomModel(nn.Module):
         Obtiene las activaciones de ciertas capas (índices en orden de ejecución entre
         las capas de tipo ``self.layer_type``). Registra los hooks, hace el forward
         (con o sin gradientes), construye el diccionario y elimina hooks y
-        activaciones antes de devolver.
+        activaciones antes de devolver (también si se lanza el ``ValueError``).
 
         Args:
             x: imagen. Dimensions: [1, 3, height, width].

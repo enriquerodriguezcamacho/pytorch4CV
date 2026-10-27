@@ -79,3 +79,67 @@ def test_topk_accuracy() -> None:
     assert m.topk_accuracy(logits, labels, 1) == pytest.approx(1 / 3)
     assert m.topk_accuracy(logits, labels, 2) == pytest.approx(2 / 3)
     assert m.topk_accuracy(logits, labels, 3) == pytest.approx(1.0)
+
+
+def test_masked_mean() -> None:
+    x = torch.tensor([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+    mask = torch.tensor([[True, False, True], [False, False, False]])
+    out = m.masked_mean(x, mask, dim=1)
+    assert out.shape == (2,)
+    assert_close(out, torch.tensor([2.0, 0.0]))  # fila sin válidos → 0
+    full = torch.ones_like(x, dtype=torch.bool)
+    assert_close(m.masked_mean(x, full, dim=0), x.mean(0))
+
+
+@pytest.mark.parametrize("p", [2, 4])
+def test_patches_to_image_roundtrip(p: int) -> None:
+    x = torch.randn(2, 3, 8, 12)
+    patches = m.image_to_patches(x, p)
+    out = m.patches_to_image(patches, p, 8, 12)
+    assert out.shape == x.shape
+    assert torch.equal(out, x)
+    ref = F.fold(patches.transpose(1, 2), (8, 12), kernel_size=p, stride=p)
+    assert_close(out, ref)
+
+
+def test_class_histogram() -> None:
+    mask = torch.tensor([[[0, 1], [1, 1]], [[2, 2], [2, 0]]])
+    out = m.class_histogram(mask, 4)
+    assert out.dtype == torch.int64
+    assert out.tolist() == [[1, 3, 0, 0], [1, 0, 3, 0]]
+    big = torch.randint(0, 5, (3, 7, 9))
+    expected = torch.stack([torch.bincount(b.flatten(), minlength=5) for b in big])
+    assert torch.equal(m.class_histogram(big, 5), expected)
+
+
+def test_grid_coordinates() -> None:
+    out = m.grid_coordinates(2, 3)
+    assert out.shape == (2, 3, 2)
+    assert out.dtype == torch.float32
+    assert out[0, 0].tolist() == [0.5, 0.5]
+    assert out[1, 2].tolist() == [2.5, 1.5], "Orden (x, y): columna primero."
+
+
+def test_mask_to_box() -> None:
+    mask = torch.zeros(2, 5, 6, dtype=torch.bool)
+    mask[0, 1:3, 2:5] = True
+    mask[1, 4, 0] = True
+    out = m.mask_to_box(mask)
+    assert out.dtype == torch.float32
+    assert out.tolist() == [[2.0, 1.0, 4.0, 2.0], [0.0, 4.0, 0.0, 4.0]]
+    from torchvision.ops import masks_to_boxes
+
+    rand = torch.rand(4, 8, 8) > 0.7
+    rand[:, 3, 3] = True
+    assert_close(m.mask_to_box(rand), masks_to_boxes(rand))
+
+
+def test_batched_index_select() -> None:
+    feats = torch.randn(2, 6, 4)
+    idx = torch.tensor([[5, 0], [2, 2]])
+    out = m.batched_index_select(feats, idx)
+    assert out.shape == (2, 2, 4)
+    assert_close(out[0, 0], feats[0, 5])
+    assert_close(out[1, 1], feats[1, 2])
+    top = feats.norm(dim=-1).topk(3, dim=1).indices
+    assert_close(m.batched_index_select(feats, top), feats[torch.arange(2)[:, None], top])

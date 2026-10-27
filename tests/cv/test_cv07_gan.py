@@ -205,8 +205,8 @@ def test_gradient_penalty_create_graph() -> None:
     assert gp.requires_grad, "Usa create_graph=True en torch.autograd.grad."
     gp.backward()
     w_grad = critic[1].weight.grad
-    # d/dw (||w|| - 1)² = 2 (||w|| - 1) w / ||w||  → con ||w|| = 2: w / 2 = 0.5
-    assert w_grad is not None and torch.allclose(w_grad, torch.full((1, 4), 0.5)), (
+    # d/dw (||w|| - 1)² = 2 (||w|| - 1) w / ||w||  → con w = [1,1,1,1] (||w|| = 2): w = 1
+    assert w_grad is not None and torch.allclose(w_grad, torch.ones(1, 4)), (
         f"Gradiente de la GP respecto a w incorrecto: {w_grad}"
     )
     assert not real.requires_grad, "No modifiques los tensores de entrada."

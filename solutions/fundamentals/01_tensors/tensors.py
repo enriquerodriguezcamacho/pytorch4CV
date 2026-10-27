@@ -141,3 +141,130 @@ def topk_accuracy(logits: torch.Tensor, labels: torch.Tensor, k: int) -> float:
     hits = (topk == labels.unsqueeze(1)).any(dim=1)
     return hits.float().mean().item()
     # END SOLUTION
+
+
+def masked_mean(x: torch.Tensor, mask: torch.Tensor, dim: int) -> torch.Tensor:
+    """Media de ``x`` en la dimensión ``dim`` contando solo los elementos con ``mask``.
+
+    Típico para promediar una pérdida por píxel solo en los píxeles válidos o para
+    hacer *mean pooling* de tokens ignorando el *padding*.
+
+    Args:
+        x: tensor de cualquier forma.
+        mask: tensor booleano con la misma forma que ``x``.
+        dim: dimensión que se reduce.
+
+    Returns:
+        tensor con ``dim`` eliminada. Donde no hay ningún elemento válido vale 0
+        (divide por ``mask.sum(dim).clamp_min(1)``).
+    """
+    # BEGIN SOLUTION
+    m = mask.to(x.dtype)
+    return (x * m).sum(dim) / m.sum(dim).clamp_min(1)
+    # END SOLUTION
+
+
+def patches_to_image(patches: torch.Tensor, patch_size: int, height: int, width: int) -> torch.Tensor:
+    """Operación inversa de :func:`image_to_patches`.
+
+    Args:
+        patches: tensor ``(B, N, C * p * p)`` con los parches ordenados por filas.
+        patch_size: lado ``p`` del parche.
+        height: alto ``H`` de la imagen original.
+        width: ancho ``W`` de la imagen original.
+
+    Returns:
+        tensor ``(B, C, H, W)``.
+    """
+    # BEGIN SOLUTION
+    b, _, d = patches.shape
+    p = patch_size
+    c = d // (p * p)
+    x = patches.reshape(b, height // p, width // p, c, p, p)
+    x = x.permute(0, 3, 1, 4, 2, 5)  # (B, C, H/p, p, W/p, p)
+    return x.reshape(b, c, height, width)
+    # END SOLUTION
+
+
+def class_histogram(mask: torch.Tensor, num_classes: int) -> torch.Tensor:
+    """Número de píxeles de cada clase en cada imagen de un lote.
+
+    Args:
+        mask: tensor ``int64`` ``(B, H, W)`` con valores en ``[0, K)``.
+        num_classes: número de clases ``K``.
+
+    Returns:
+        tensor ``int64`` ``(B, K)``. Usa ``Tensor.scatter_add_`` (sin bucles ni
+        ``torch.bincount``).
+    """
+    # BEGIN SOLUTION
+    flat = mask.flatten(1)
+    out = torch.zeros(mask.shape[0], num_classes, dtype=torch.int64, device=mask.device)
+    return out.scatter_add_(1, flat, torch.ones_like(flat))
+    # END SOLUTION
+
+
+def grid_coordinates(height: int, width: int) -> torch.Tensor:
+    """Coordenadas ``(x, y)`` del centro de cada celda de una rejilla ``H × W``.
+
+    Es lo que se usa para pasar de coordenadas relativas a la celda a coordenadas
+    de imagen en YOLO o para generar *anchors*.
+
+    Args:
+        height: número de filas.
+        width: número de columnas.
+
+    Returns:
+        tensor ``float32`` ``(H, W, 2)`` con ``out[i, j] = (j + 0.5, i + 0.5)``.
+        Usa ``torch.meshgrid(..., indexing="ij")``.
+    """
+    # BEGIN SOLUTION
+    ys = torch.arange(height, dtype=torch.float32) + 0.5
+    xs = torch.arange(width, dtype=torch.float32) + 0.5
+    grid_y, grid_x = torch.meshgrid(ys, xs, indexing="ij")
+    return torch.stack([grid_x, grid_y], dim=-1)
+    # END SOLUTION
+
+
+def mask_to_box(mask: torch.Tensor) -> torch.Tensor:
+    """Caja mínima ``xyxy`` que contiene los píxeles activos de cada máscara.
+
+    Convención de ``torchvision.ops.masks_to_boxes``: ``x2`` e ``y2`` son el índice
+    del último píxel activo (inclusivo).
+
+    Args:
+        mask: tensor booleano ``(N, H, W)``; cada máscara tiene al menos un píxel activo.
+
+    Returns:
+        tensor ``float32`` ``(N, 4)``. Sin bucles en ``H`` ni ``W`` (usa ``any`` y
+        ``argmax`` sobre los ejes).
+    """
+    # BEGIN SOLUTION
+    _, h, w = mask.shape
+    rows = mask.any(dim=2)  # (N, H)
+    cols = mask.any(dim=1)  # (N, W)
+    y1 = rows.int().argmax(dim=1)
+    y2 = h - 1 - rows.flip(1).int().argmax(dim=1)
+    x1 = cols.int().argmax(dim=1)
+    x2 = w - 1 - cols.flip(1).int().argmax(dim=1)
+    return torch.stack([x1, y1, x2, y2], dim=1).float()
+    # END SOLUTION
+
+
+def batched_index_select(features: torch.Tensor, indices: torch.Tensor) -> torch.Tensor:
+    """Selecciona ``K`` vectores de cada elemento del lote.
+
+    Por ejemplo, quedarse con los ``K`` tokens o *anchors* con más puntuación.
+
+    Args:
+        features: tensor ``(B, N, D)``.
+        indices: tensor ``int64`` ``(B, K)`` con valores en ``[0, N)``.
+
+    Returns:
+        tensor ``(B, K, D)`` con ``out[b, k] = features[b, indices[b, k]]``. Usa
+        ``torch.gather`` expandiendo los índices a ``(B, K, D)``.
+    """
+    # BEGIN SOLUTION
+    index = indices.unsqueeze(-1).expand(-1, -1, features.shape[-1])
+    return torch.gather(features, 1, index)
+    # END SOLUTION

@@ -78,9 +78,9 @@ def average_precision(
     """
     Área bajo la curva precisión-*recall* (AP).
 
-    * ``"all_points"`` (VOC 2010+, COCO usa 101 puntos): se añaden los extremos
-      ``(r=0, p=1... )`` → en concreto ``recall = [0, r..., 1]`` y
-      ``precision = [0, p..., 0]``, se hace la envolvente monótona
+    * ``"all_points"`` (VOC 2010+; COCO usa 101 puntos): se añaden centinelas
+      ``recall = [0, r..., 1]`` y ``precision = [0, p..., 0]``, se hace la
+      envolvente monótona
       ``p_interp(r) = max_{r' >= r} p(r')`` y se suma
       ``Σ (r_{k+1} - r_k) · p_interp(r_{k+1})``.
     * ``"11_points"`` (VOC 2007): media de ``p_interp(t)`` para
