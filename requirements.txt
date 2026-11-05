@@ -1,0 +1,26 @@
+# Dependencias para ejecutar los ejercicios, los tests y los notebooks.
+#
+#   python -m venv .venv
+#   (activa el entorno, ver README)
+#   python -m pip install -r requirements.txt
+#
+# PyTorch: en Linux, pip descarga por defecto la versión con CUDA (~2-3 GB).
+# Si no tienes GPU NVIDIA y quieres la versión CPU (~200 MB), instala torch antes:
+#   python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+# --- Núcleo (igual que [project.dependencies] en pyproject.toml) ---
+torch>=2.2
+torchvision>=0.17
+numpy
+matplotlib
+pillow
+tqdm
+
+# --- Notebooks (kernel de Jupyter para VS Code) ---
+ipykernel
+
+# --- Tests y calidad de código ---
+pytest>=8
+ruff>=0.6
+mypy>=1.10
+pre-commit

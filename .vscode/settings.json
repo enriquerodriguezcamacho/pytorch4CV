@@ -1,0 +1,13 @@
+{
+  // Usa siempre el entorno del proyecto (.venv) como intérprete y kernel.
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+
+  // Tests: VS Code usa pytest con la configuración de pyproject.toml.
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": ["tests"],
+
+  // Ejecuta los notebooks con la raíz del repo como directorio de trabajo.
+  "jupyter.notebookFileRoot": "${workspaceFolder}"
+}

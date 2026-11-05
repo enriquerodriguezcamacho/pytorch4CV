@@ -21,12 +21,18 @@ Con [uv](https://docs.astral.sh/uv/) (instala PyTorch para CPU):
 uv sync --extra dev
 ```
 
-O con `pip`:
+O con `venv` + `pip` (desde la raíz del repo):
 
 ```bash
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-pip install numpy matplotlib pillow tqdm pytest ruff
+python -m venv .venv
+source .venv/bin/activate          # Windows (PowerShell): .venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
+
+En VS Code, el intérprete y el kernel de los notebooks son `.venv` (ver
+`.vscode/settings.json`): al abrir un `.ipynb`, *Select Kernel → Python Environments →
+.venv*.
 
 ## Cómo se usa
 
