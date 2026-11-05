@@ -126,6 +126,55 @@ Producto matricial: `@` / `torch.matmul` (con *batch*), `torch.bmm`,
 * Ej. 14: `indices[..., None].expand(-1, -1, D)` y `gather` en la dimensión 1.
 </details>
 
+## 5. Catálogo de métodos
+
+**Explicación completa:** [`guia_tensores.ipynb`](guia_tensores.ipynb) explica cada método, sus argumentos, cuándo usarlo y sus errores típicos, con un ejemplo ejecutable. Esta tabla solo sirve para localizarlos. Para practicarlos:
+[`tensor_ops.py`](tensor_ops.py), con `pytest tests/fundamentals/test_f01_tensor_ops.py`.
+
+| Para... | Métodos |
+|---|---|
+| Crear con un valor | `torch.zeros`, `ones`, `full`, `eye`, `empty` |
+| Crear secuencias | `torch.arange` (sin el final), `linspace` (con el final), `logspace` |
+| Crear al azar | `torch.rand`, `randn`, `randint`, `randperm`, `bernoulli`, `multinomial` |
+| Crear con la misma forma | `torch.zeros_like`, `ones_like`, `full_like`, `rand_like`, `randn_like` |
+| Crear con otra forma y el mismo tipo | `x.new_zeros`, `new_ones`, `new_full`, `new_tensor` |
+| Convertir | `torch.tensor` (copia), `from_numpy` (comparte), `.numpy()`, `.tolist()`, `.item()` |
+| Inspeccionar | `.shape`, `.size(d)`, `.ndim`, `.numel()`, `.dtype`, `.device`, `.requires_grad` |
+| Cambiar el tipo | `.float()`, `.long()`, `.bool()`, `.to(torch.uint8)`, `.to(device)` |
+| Cambiar la forma | `reshape`, `view`, `flatten`, `permute`, `transpose`, `movedim`, `squeeze`, `unsqueeze` |
+| Repetir | `repeat`, `repeat_interleave`, `expand`, `expand_as`, `broadcast_to` |
+| Mover datos | `flip`, `rot90`, `roll`, `unfold` |
+| Unir y separar | `cat`, `stack`, `chunk`, `split`, `unbind` |
+| Seleccionar | `x[...]`, `index_select`, `gather`, `masked_select`, `nonzero`, `where` |
+| Escribir | `scatter`, `scatter_add_`, `masked_fill`, `index_fill` |
+| Matrices especiales | `tril`, `triu`, `diag`, `meshgrid` |
+| Reducir | `sum`, `mean`, `std`, `var`, `prod`, `median`, `max`, `min`, `amax`, `amin`, `argmax`, `argmin`, `norm` |
+| Acumular | `cumsum`, `cumprod` |
+| Ordenar y contar | `sort`, `argsort`, `topk`, `unique`, `bincount`, `any`, `all` |
+| Matemáticas | `clamp`, `abs`, `round`, `floor`, `ceil`, `sqrt`, `exp`, `log`, `sign`, `maximum`, `minimum`, `lerp` |
+| Comparar | `eq`, `gt`, `isnan`, `isinf`, `equal`, `allclose` |
+| Álgebra | `@`, `matmul`, `bmm`, `dot`, `.T`, `.mT`, `einsum`, `cdist`, `linalg.inv` |
+| Memoria | `clone`, `detach`, `contiguous`, métodos con `_` final (en el sitio) |
+
+| ¿Comparte memoria? | Operaciones |
+|---|---|
+| Sí | `view`, `permute`, `transpose`, `expand`, `squeeze`, `unsqueeze`, `x[0]`, `detach`, `from_numpy` |
+| No | `clone`, `repeat`, `cat`, `stack`, `torch.tensor`, indexado con máscara o lista |
+
+### Ejercicios de `tensor_ops.py`
+
+Son 47 ejercicios muy cortos, cada uno con un ejemplo en su *docstring*; la pista del `TODO` indica qué método usar.
+
+| Bloque | Ejercicios |
+|---|---|
+| A. Creación | `zeros_ones_like`, `constant_image`, `identity_batch`, `even_numbers`, `interpolation_steps`, `gaussian_noise_like`, `random_labels`, `blank_like`, `causal_mask` |
+| B. Tipos | `to_uint8_image`, `mean_of_labels` |
+| C. Forma | `add_batch_and_channel`, `flatten_per_sample`, `hwc_batch_to_chw`, `remove_singletons`, `tile_image`, `expand_to_batch`, `repeat_each`, `horizontal_flip`, `rotate_90`, `cyclic_shift`, `frame_signal_1d` |
+| D. Unir y separar | `stack_images`, `concat_channels`, `xywh_to_xyxy`, `chunk_heads`, `split_channels` |
+| E. Indexado | `select_rows`, `replace_negatives`, `fill_masked`, `true_coordinates`, `sort_by_score`, `argmax_2d`, `labels_to_one_hot` |
+| F. Reducciones | `channel_mean_std`, `minmax_per_image`, `l2_normalize`, `cosine_similarity_matrix`, `running_sum`, `count_per_class`, `unique_with_counts`, `rows_all_any`, `clip_boxes`, `blend` |
+| G. Memoria | `independent_copy`, `to_python_list`, `nearly_equal` |
+
 ## Referencias
 * [PyTorch docs – Tensors](https://docs.pytorch.org/docs/stable/tensors.html)
 * [srush/Tensor-Puzzles](https://github.com/srush/Tensor-Puzzles)
