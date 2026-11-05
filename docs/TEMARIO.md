@@ -5,8 +5,20 @@ capítulo. Para cada capítulo se indica: **(a)** secciones, **(b)** conceptos,
 **(c)** fórmulas clave, **(d)** métodos y arquitecturas y **(e)** qué se puede
 programar en PyTorch (y dónde está en este repositorio).
 
-> Los capítulos 1–5 tienen formato de libro con ejercicios; los capítulos 6–9 son
-> notas. Al final hay un apartado de *posibles erratas* detectadas en los apuntes.
+> ⚠️ **Este resumen se basa en los apuntes anteriores.** La referencia del examen son los
+> apuntes del 12/10/2026 (`Teoria/apuntes.txt`). Diferencias detectadas:
+>
+> * **Tema 1:** ahora es *Foundations of CNNs*. Es nuevo: repaso de CNN, características
+>   a lo largo de la red, campo receptivo y *data augmentation*.
+> * **Apéndice A (nuevo):** docstrings, *linting*, seguridad (Bandit), Makefile, tests y `uv`.
+> * **Ya no aparecen:** despliegue en producción, Docker, GitHub Actions, redes bayesianas
+>   y MC Dropout, WGAN, Nadaraya-Watson, AdaIN y SpecAugment. VQ-VAE solo se cita como variante.
+> * **Tema 9:** ahora es *Audio Processing and Recognition*, centrado en log-mel,
+>   CTC, atención, *beam search* y WER.
+> * Todos los temas incluyen ejercicios finales: [EJERCICIOS_APUNTES.md](EJERCICIOS_APUNTES.md).
+>
+> La comparación se hizo por el índice y por búsqueda de términos, no leyendo todo el
+> texto. Ante cualquier duda de detalle, mandan los apuntes nuevos.
 
 ---
 

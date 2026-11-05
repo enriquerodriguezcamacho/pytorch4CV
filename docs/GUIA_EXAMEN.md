@@ -50,10 +50,13 @@ En el extraordinario la calidad se puntuó por herramienta:
 | Parcial | U-Net para estimar profundidad: `ConvBlock`, `EncoderBlock`, `DecoderBlock`, `UNet`. Pérdida *scale-invariant* y `Trainer` (`_make_epoch_train`, `_make_epoch_test`, `fit`) | [CV03](../exercises/cv/03_segmentation_style_transfer), [CV04](../exercises/cv/04_3d_video), [F09](../exercises/fundamentals/09_training_loop) |
 | Final (diciembre) | *Style transfer*: `gram_matrix`, hooks en VGG, pérdidas de contenido/estilo/TV y `Trainer` que optimiza la imagen. I‑FGSM con `_compute_loss`, `_gradient_step`, `get_norm` y `fit` | [CV03](../exercises/cv/03_segmentation_style_transfer), [CV06](../exercises/cv/06_adversarial_attacks), [F12](../exercises/fundamentals/12_hooks_feature_extraction) |
 | Extraordinario (junio) | RISE: máscaras naive y normal, versión en bucle y vectorizada. GAN condicional con `nn.Embedding` y `train_step` | [CV05](../exercises/cv/05_explainability), [CV07](../exercises/cv/07_generative_models) |
-| Práctica 1 | *Transfer learning*: `replace_last_layer`, estrategias LastLayer / FeatureExtraction / FullFineTuning | [CV01](../exercises/cv/01_introduction_transfer_learning) |
+| Práctica 1 | *Transfer learning*: `replace_last_layer`, estrategias LastLayer / FeatureExtraction / FullFineTuning | [CV01](../exercises/cv/01_foundations_cnn) |
 | Práctica 2 | YOLOv1: *dataset* S×S×(5B+C), IoU, NMS, `YOLOLoss`, mAP | [CV02](../exercises/cv/02_object_detection), [F08](../exercises/fundamentals/08_data_pipeline) |
 | Práctica 3 | XAI: *saliency*, *occlusion*, *integrated gradients*, *guided backprop* | [CV05](../exercises/cv/05_explainability) |
 | Práctica 4 | FGSM, *One Pixel Attack*, CutMix | [CV06](../exercises/cv/06_adversarial_attacks), [F07](../exercises/fundamentals/07_regularization_normalization) |
+
+El profesor ha indicado que los ejercicios del final de cada tema de los apuntes son
+importantes y pueden caer: [EJERCICIOS_APUNTES.md](EJERCICIOS_APUNTES.md).
 
 ## 4. Qué comprueban los tests
 

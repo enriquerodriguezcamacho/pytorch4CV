@@ -9,7 +9,7 @@ tests automáticos que corrigen tu solución.
 exercises/   ← aquí trabajas tú (generado a partir de solutions/)
 solutions/   ← soluciones de referencia con marcadores BEGIN/END SOLUTION
 tests/       ← los mismos tests corrigen exercises/ o solutions/
-docs/        ← temario resumido, guía del examen y chuleta
+docs/        ← índice de ejercicios de los apuntes, soluciones, prácticas, temario y chuleta
 tools/       ← make_exercises.py (genera exercises/ desde solutions/)
 ```
 
@@ -48,6 +48,20 @@ Atajos del `Makefile`: `make test`, `make test-solutions`, `make check`
 > comprueban formas, valores calculados a mano, equivalencia con PyTorch/torchvision,
 > determinismo con semilla y el modo `train`/`eval`, igual que en el examen.
 
+## Qué estudiar primero
+
+Los apuntes del 12/10/2026 son la referencia del examen. Orden recomendado:
+
+1. **Prácticas:** repite cada una desde cero con [`docs/PRACTICAS.md`](docs/PRACTICAS.md).
+2. **Ejercicios de los apuntes:** los 119 están localizados en
+   [`docs/EJERCICIOS_APUNTES.md`](docs/EJERCICIOS_APUNTES.md). Empieza por los marcados
+   con ⭐, y consulta los teóricos en [`docs/SOLUCIONES_APUNTES.md`](docs/SOLUCIONES_APUNTES.md).
+3. **Exámenes anteriores:** [`docs/GUIA_EXAMEN.md`](docs/GUIA_EXAMEN.md).
+4. **Fundamentos:** para reforzar lo que necesites.
+
+Lo que los apuntes nuevos ya no incluyen sigue aquí como material opcional (se indica en
+cada tabla). Puedes dejarlo para el final.
+
 ## Temas
 
 ### Fundamentos (`exercises/fundamentals/`)
@@ -67,27 +81,30 @@ Atajos del `Makefile`: `make test`, `make test-solutions`, `make check`
 | F11 · Arquitecturas | bloques VGG/residual/Inception/dense/SE, LeNet-5, LSTM, Transformer, autoencoder, siamesa | `test_f11_*.py` |
 | F12 · Hooks y features | *forward/backward hooks*, Grad-CAM, Guided Backprop, extracción de features con `torch.fx` | `test_f12_hooks.py` |
 | F13 · Aumento de datos | volteo/recorte/redimensionado coherente de imagen, máscara y cajas, brillo/contraste, *cutout*, TTA | `test_f13_augmentation.py` |
-| F14 · Inferencia y despliegue | `predict` con `inference_mode`, TorchScript, despliegues *shadow*, A/B (test z) y *canary* | `test_f14_inference_deployment.py` |
+| F14 · Inferencia y despliegue *(despliegues: opcional, ya no están en los apuntes)* | `predict` con `inference_mode`, TorchScript, despliegues *shadow*, A/B (test z) y *canary* | `test_f14_inference_deployment.py` |
 
 ### Visión por computador (`exercises/cv/`)
 
 | Tema | Contenido | Ha caído en |
 |---|---|---|
-| CV01 · Transfer learning | `replace_last_layer`, LastLayer / FeatureExtraction / FullFineTuning, bloques | Práctica 1 |
-| CV02 · Detección | IoU, NMS, mAP/COCO mAP, anchors, RoI pooling, RPN, YOLOv1 completo | Práctica 2 |
-| CV03 · Segmentación y *style transfer* | conv transpuesta, U-Net, Dice/mIoU, Gram, hooks en VGG, `Trainer` de imagen | Parcial, Final |
+| CV01 · Fundamentos de CNN y *transfer learning* | `DataManager`, `replace_last_layer`, LastLayer / FeatureExtraction / FullFineTuning, bloques, campo receptivo | Práctica 1 |
+| CV02 · Detección | Un objeto, IoU, NMS, mAP/COCO mAP, anchors, RoI pooling, R-CNN, Fast R-CNN, RPN, YOLOv1 completo | Práctica 2 |
+| CV03 · Segmentación y *style transfer* | ventana deslizante, conv transpuesta, *upsampling*, FCN, U-Net, Dice/mIoU, Gram, hooks en VGG, `Trainer` de imagen | Parcial, Final |
 | CV04 · 3D y vídeo | Conv3d a mano, pérdida *scale-invariant*, normales, Chamfer, F1@δ, PointNet, modelos de vídeo, I3D | Parcial |
-| CV05 · Explicabilidad | saliency, IG, Guided Backprop, Grad-CAM, Occlusion, Shapley, **RISE**, deletion/insertion | Extraordinario, Práctica 3 |
-| CV06 · Ataques adversarios | FGSM, PGD ℓ∞/ℓ2, **I-FGSM**, C&W, One Pixel Attack, adversarial training, VAT | Final, Práctica 4 |
-| CV07 · Modelos generativos | AE, VAE/β-VAE/CVAE, GAN/WGAN-GP, **GAN condicional**, PixelCNN, VQ, BNN y MC Dropout | Extraordinario |
-| CV08 · Atención y Transformers | Nadaraya-Watson, atención, MHA, PE sinusoidal, encoder Pre/Post-LN, **ViT**, *hard distillation* | — |
-| CV09 · Audio | ZCR, RMS, mel, DFT/STFT, dB, SpecAugment, CNN sobre mel, CRNN + CTC, WER | — |
+| CV05 · Explicabilidad | saliency, IG, Guided Backprop, Grad-CAM, Occlusion, Shapley (Monte Carlo), **RISE**, loyalty, ROAR, *sanity checks* | Extraordinario, Práctica 3 |
+| CV06 · Ataques adversarios | FGSM, PGD ℓ∞/ℓ2, **I-FGSM**, C&W, *Boundary Attack*, One Pixel Attack, adversarial training, VAT, robustez | Final, Práctica 4 |
+| CV07 · Modelos generativos | AE, VAE/β-VAE/CVAE, GAN, **GAN condicional**, PixelCNN, VQ. Opcional, ya no en los apuntes: WGAN-GP, BNN y MC Dropout | Extraordinario |
+| CV08 · Atención y Transformers | Atención, MHA, PE sinusoidal, encoder Pre/Post-LN, **ViT**, destilación *hard*/*soft* de DeiT, ventanas de Swin. Opcional: Nadaraya-Watson | — |
+| CV09 · Audio | Mel, DFT/STFT, dB, CNN sobre mel, CRNN + CTC, colapso de CTC, WER. Opcional: ZCR, RMS, SpecAugment | — |
 
 ## Documentación
 
+* [`docs/EJERCICIOS_APUNTES.md`](docs/EJERCICIOS_APUNTES.md): los 119 ejercicios de los apuntes y dónde hacerlos.
+* [`docs/SOLUCIONES_APUNTES.md`](docs/SOLUCIONES_APUNTES.md): soluciones de los ejercicios teóricos.
+* [`docs/PRACTICAS.md`](docs/PRACTICAS.md): cada práctica enlazada con su ejercicio.
 * [`docs/GUIA_EXAMEN.md`](docs/GUIA_EXAMEN.md): formato del examen, evaluación, qué ha
   caído y qué comprueban los tests.
-* [`docs/TEMARIO.md`](docs/TEMARIO.md): resumen de los apuntes capítulo a capítulo.
+* [`docs/TEMARIO.md`](docs/TEMARIO.md): resumen por capítulos, basado en los apuntes anteriores (lee su aviso inicial).
 * [`docs/CHULETA.md`](docs/CHULETA.md): chuleta de PyTorch para el examen.
 * [`CONTRIBUTING.md`](CONTRIBUTING.md): cómo añadir o corregir ejercicios.
 

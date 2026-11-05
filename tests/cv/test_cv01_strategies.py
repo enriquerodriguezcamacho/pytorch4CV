@@ -11,8 +11,8 @@ from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 from torchvision import models
 
-s = load("cv/01_introduction_transfer_learning/strategies.py")
-cfg = load("cv/01_introduction_transfer_learning/config.py")
+s = load("cv/01_foundations_cnn/strategies.py")
+cfg = load("cv/01_foundations_cnn/config.py")
 
 NUM_CLASSES = 3
 NUM_SAMPLES = 8

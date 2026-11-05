@@ -7,7 +7,7 @@ import torch
 from helpers import load
 from torch import nn
 
-b = load("cv/01_introduction_transfer_learning/blocks.py")
+b = load("cv/01_foundations_cnn/blocks.py")
 
 BATCH = 2
 

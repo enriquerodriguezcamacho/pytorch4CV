@@ -8,7 +8,7 @@ from helpers import DummyCNN, load
 from torch import nn
 from torchvision import models
 
-m = load("cv/01_introduction_transfer_learning/models.py")
+m = load("cv/01_foundations_cnn/models.py")
 
 NUM_CLASSES = 5
 
