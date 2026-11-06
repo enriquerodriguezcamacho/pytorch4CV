@@ -89,7 +89,7 @@ Producto matricial: `@` / `torch.matmul` (con *batch*), `torch.bmm`,
 | Coger la probabilidad de la clase verdadera | `gather` o indexado avanzado |
 | One-hot de una máscara de segmentación `(B,H,W)` | `F.one_hot(...).permute(0, 3, 1, 2)` |
 | Dividir una imagen en parches (ViT) | `reshape` + `permute` o `unfold` |
-| Matriz de Gram | `einsum` o `bmm` |
+| Matriz de Gram | `f @ f.transpose(1, 2)` (o `einsum`/`bmm`) |
 | Top‑k predicciones | `topk` |
 
 ## 3. Errores típicos de examen
@@ -107,7 +107,7 @@ Producto matricial: `@` / `torch.matmul` (con *batch*), `torch.bmm`,
 | 4 | `select_by_index` (`gather`) | ★★ |
 | 5 | `one_hot_mask` (`scatter`) | ★★ |
 | 6 | `image_to_patches` | ★★★ |
-| 7 | `batched_gram_matrix` (`einsum`) | ★★ |
+| 7 | `batched_gram_matrix` (`@`) | ★★ |
 | 8 | `topk_accuracy` | ★★ |
 | 9 | `masked_mean` (media solo de los válidos) | ★ |
 | 10 | `patches_to_image` (inversa de los parches) | ★★★ |

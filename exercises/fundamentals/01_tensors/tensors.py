@@ -102,7 +102,7 @@ def batched_gram_matrix(features: torch.Tensor) -> torch.Tensor:
 
     Returns:
         tensor ``(B, C, C)`` con ``G[b] = F_b F_bᵀ / (C·H·W)`` siendo ``F_b`` de
-        forma ``(C, H·W)``. Usa ``torch.einsum``.
+        forma ``(C, H·W)``. Usa ``@`` con ``transpose(1, 2)``.
     """
     # TODO: implementa esta parte
     raise NotImplementedError("TODO")

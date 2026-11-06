@@ -116,12 +116,12 @@ def batched_gram_matrix(features: torch.Tensor) -> torch.Tensor:
 
     Returns:
         tensor ``(B, C, C)`` con ``G[b] = F_b F_bᵀ / (C·H·W)`` siendo ``F_b`` de
-        forma ``(C, H·W)``. Usa ``torch.einsum``.
+        forma ``(C, H·W)``. Usa ``@`` con ``transpose(1, 2)``.
     """
     # BEGIN SOLUTION
     b, c, h, w = features.shape
-    f = features.reshape(b, c, h * w)
-    return torch.einsum("bci,bdi->bcd", f, f) / (c * h * w)
+    f = features.reshape(b, c, h * w)  # (B, C, HW)
+    return f @ f.transpose(1, 2) / (c * h * w)  # (B, C, HW) @ (B, HW, C) -> (B, C, C)
     # END SOLUTION
 
 
